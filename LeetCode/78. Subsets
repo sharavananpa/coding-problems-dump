@@ -1,0 +1,18 @@
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        auxiliary(result, nums, new ArrayList<Integer>(), 0);
+        return result;
+    }
+
+    private void auxiliary(List<List<Integer>> result, int[] nums, List<Integer> subset, int counter) {
+        if (counter == nums.length) {
+            result.add(new ArrayList<Integer>(subset));
+            return;
+        }
+        subset.add(nums[counter]);
+        auxiliary(result, nums, subset, counter + 1);
+        subset.remove(subset.size() - 1);
+        auxiliary(result, nums, subset, counter + 1);
+    }
+}

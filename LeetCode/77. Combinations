@@ -1,0 +1,45 @@
+// Initial Solution
+
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        auxiliary(result, n, k, new ArrayList<Integer>(), 1);
+        return result;
+    }
+
+    private void auxiliary(List<List<Integer>> result, int n, int k, List<Integer> combination, int counter) {
+        if (combination.size() == k) {
+            result.add(new ArrayList<Integer>(combination));
+            return;
+        }
+        
+        for (int i = counter; i <= n; i++) {
+            combination.add(i);
+            auxiliary(result, n, k, combination, i + 1);
+            combination.remove(combination.size() - 1);
+        }
+    }
+}
+
+// Improvised
+
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        auxiliary(result, n, k, new ArrayList<Integer>(), 1);
+        return result;
+    }
+
+    private void auxiliary(List<List<Integer>> result, int n, int k, List<Integer> combination, int counter) {
+        if (k == 0) {
+            result.add(new ArrayList<Integer>(combination));
+            return;
+        }
+        
+        for (int i = counter; i <= n + 1 - k; i++) {
+            combination.add(i);
+            auxiliary(result, n, k - 1, combination, i + 1);
+            combination.remove(combination.size() - 1);
+        }
+    }
+}

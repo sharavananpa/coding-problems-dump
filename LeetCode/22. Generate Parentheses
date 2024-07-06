@@ -1,0 +1,22 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<String>();
+        auxiliary(result, 0, 0, "", n);
+        return result;
+    }
+
+    private void auxiliary(List<String> result, int openCount, int closeCount, String s, int n) {
+        if (openCount == n && n == closeCount) {
+            result.add(s);
+            return;
+        }
+
+        if (openCount < n) {
+            auxiliary(result, openCount + 1, closeCount, s + "(", n);
+        }
+
+        if (closeCount < openCount) {
+            auxiliary(result, openCount, closeCount + 1, s + ")", n);
+        }
+    }
+}
