@@ -1,0 +1,43 @@
+// Iterative
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        while (head != null) {
+            ListNode next = head.next;
+            head.next = prev;
+            prev = head;
+            head = next;
+        }
+        return prev;
+    }
+}
+
+// Recursive with auxiliary function
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        return auxiliary(null, head);
+    }
+
+    private ListNode auxiliary(ListNode prev, ListNode curr) {
+        if (curr == null) {
+            return prev;
+        }
+        ListNode next = curr.next;
+        curr.next = prev;
+        return auxiliary(curr, next);
+    }
+}
+
+// Proper Recursive
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode newHead = reverseList(head.next);
+        ListNode next = head.next;
+        next.next = head;
+        head.next = null;
+        return newHead;
+    }
+}
