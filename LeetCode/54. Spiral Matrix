@@ -1,0 +1,74 @@
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> result = new ArrayList<>();
+        
+        int top = 0;
+        int bottom = matrix.length - 1;
+        int first = 0;
+        int last = matrix[0].length - 1;
+
+        while (first <= last && top <= bottom) {
+            for (int i = first; i <= last; i++) {
+                result.add(matrix[top][i]);
+            }
+            top++;
+            for (int i = top; i <= bottom; i++) {
+                result.add(matrix[i][last]);
+            }
+            last--;
+            if (top <= bottom) {
+                for (int i = last; i >= first; i--) {
+                    result.add(matrix[bottom][i]);
+                }
+                bottom--;
+            }
+
+            if (first <= last) {
+                for (int i = bottom; i >= top; i--) {
+                    result.add(matrix[i][first]);
+                }
+                first++;
+            }
+        }
+        
+        return result;
+    }
+}
+
+// The if condition for a single row or column was tricky. Else, it's just a simulation of the problem.
+
+// Another very similar version - check the condition inside the loop
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> result = new ArrayList<>();
+        
+        int top = 0;
+        int bottom = matrix.length - 1;
+        int first = 0;
+        int last = matrix[0].length - 1;
+
+        while (first <= last && top <= bottom) {
+            for (int i = first; i <= last; i++) {
+                result.add(matrix[top][i]);
+            }
+            top++;
+            for (int i = top; i <= bottom; i++) {
+                result.add(matrix[i][last]);
+            }
+            last--;
+            if (top <= bottom && first <= last) {
+                for (int i = last; i >= first; i--) {
+                    result.add(matrix[bottom][i]);
+                }
+                bottom--;
+
+                for (int i = bottom; i >= top; i--) {
+                    result.add(matrix[i][first]);
+                }
+                first++;
+            }
+        }
+        
+        return result;
+    }
+}
