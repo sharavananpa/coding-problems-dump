@@ -1,0 +1,82 @@
+// Naive
+
+class MyQueue {
+
+    Stack<Integer> sMain;
+    Stack<Integer> sAux;
+
+    public MyQueue() {
+        sMain = new Stack<Integer>();
+        sAux = new Stack<Integer>();
+    }
+    
+    public void push(int x) {
+        while (!sMain.empty()) {
+            sAux.push(sMain.pop());
+        }
+
+        sAux.push(x);
+
+        while (!sAux.empty()) {
+            sMain.push(sAux.pop());
+        }
+    }
+    
+    public int pop() {
+        return sMain.pop();
+    }
+    
+    public int peek() {
+        return sMain.peek();
+    }
+    
+    public boolean empty() {
+        return sMain.empty();
+    }
+}
+
+
+// Optimized
+
+class MyQueue {
+
+    Stack<Integer> sMain;
+    Stack<Integer> sAux;
+
+    public MyQueue() {
+        sMain = new Stack<Integer>();
+        sAux = new Stack<Integer>();
+    }
+    
+    public void push(int x) {
+        sAux.push(x);
+    }
+    
+    public int pop() {
+        peek();
+        return sMain.pop();
+    }
+    
+    public int peek() {
+        if (sMain.empty()) {
+            while (!sAux.empty()) {
+                sMain.push(sAux.pop());
+            }
+        }
+        return sMain.peek();
+    }
+    
+    public boolean empty() {
+
+        return sMain.empty() && sAux.empty();
+    }
+}
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue obj = new MyQueue();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.peek();
+ * boolean param_4 = obj.empty();
+ */

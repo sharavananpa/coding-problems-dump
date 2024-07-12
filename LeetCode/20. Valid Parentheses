@@ -1,0 +1,107 @@
+// 1
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> aux = new Stack<>();
+        for (Character c: s.toCharArray()) {
+            if (c == '(' || c == '{' || c == '[') {
+                aux.push(c);
+            } else {
+                if (aux.empty()) {
+                    return false;
+                } else if (c == ')' && aux.peek() == '(') {
+                    aux.pop();
+                } else if (c == '}' && aux.peek() == '{') {
+                    aux.pop();
+                } else if (c == ']' && aux.peek() == '[') {
+                    aux.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+        return aux.empty();
+    }
+}
+
+// 2
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (Character c: s.toCharArray()) {
+            if (c == '(')
+                stack.push(')');
+            else if (c == '{')
+                stack.push('}');
+            else if (c == '[')
+                stack.push(']');
+            else if (stack.isEmpty() || stack.pop() != c) {
+                return false;
+            }
+        }
+        return stack.isEmpty();
+    }
+}
+
+// 3.0
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> aux = new Stack<>();
+        HashMap<Character, Character> map = new HashMap<>();
+        map.put(')', '(');
+        map.put('}', '{');
+        map.put(']', '[');
+        for (Character c: s.toCharArray()) {
+            if (!aux.empty() && aux.peek() == map.get(c)) {
+                aux.pop();
+            } else {
+                aux.push(c);
+            }
+        }
+        return aux.empty();
+    }
+}
+
+// 3.1
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> aux = new Stack<>();
+        HashMap<Character, Character> map = new HashMap<>();
+        map.put('(', ')');
+        map.put('{', '}');
+        map.put('[', ']');
+        for (Character c: s.toCharArray()) {
+            if (!aux.empty() && aux.peek() == c) {
+                aux.pop();
+            } else {
+                aux.push(map.get(c));
+            }
+        }
+        return aux.empty();
+    }
+}
+
+// 3.2 (Best IMO)
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> aux = new Stack<>();
+        HashMap<Character, Character> map = new HashMap<>();
+        map.put('(', ')');
+        map.put('{', '}');
+        map.put('[', ']');
+        for (Character c: s.toCharArray()) {
+            if (map.containsKey(c)) {
+                aux.push(map.get(c));
+            } else if (!aux.empty() && aux.peek() == c) {
+                aux.pop();
+            } else {
+                return false;
+            }
+        }
+        return aux.empty();
+    }
+}
