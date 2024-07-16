@@ -1,0 +1,26 @@
+// Messy 
+
+class Solution {
+    public int maxDepth(TreeNode root) {
+        return auxiliary(root, 0);
+    }
+
+    private int auxiliary(TreeNode root, int count) {
+        if (root == null) {
+            return count;
+        }
+        count++;
+        return Math.max(auxiliary(root.left, count), auxiliary(root.right, count));
+    }
+}
+
+// Proper
+
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+    }
+}
