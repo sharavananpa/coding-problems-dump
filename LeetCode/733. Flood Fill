@@ -1,0 +1,52 @@
+// Without helper function
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        // Return early if the starting pixel is already the target color
+        if (image[sr][sc] == color) {
+            return image;
+        }
+
+        // Store the original color to be replaced
+        int originalColor = image[sr][sc];
+
+        // Begin the flood fill process
+        image[sr][sc] = color;
+
+        // Recursively call flood fill on adjacent pixels if they match the original color
+        if (sr > 0 && image[sr - 1][sc] == originalColor) {
+            floodFill(image, sr - 1, sc, color);
+        }
+        if (sr < image.length - 1 && image[sr + 1][sc] == originalColor) {
+            floodFill(image, sr + 1, sc, color);
+        }
+        if (sc > 0 && image[sr][sc - 1] == originalColor) {
+            floodFill(image, sr, sc - 1, color);
+        }
+        if (sc < image[0].length - 1 && image[sr][sc + 1] == originalColor) {
+            floodFill(image, sr, sc + 1, color);
+        }
+
+        // Return the updated image
+        return image;
+    }
+}
+
+// With helper function (elegant)
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        if (image[sr][sc] == color)
+            return image;
+        dfs(image, sr, sc, image[sr][sc], color);
+        return image;
+    }
+
+    private void dfs(int[][] image, int sr, int sc, int oldColor, int newColor) {
+        if (sr < 0 || sc < 0 || sr == image.length || sc == image[0].length || image[sr][sc] != oldColor)
+            return;
+        image[sr][sc] = newColor;
+        dfs(image, sr - 1, sc, oldColor, newColor);
+        dfs(image, sr, sc + 1, oldColor, newColor);
+        dfs(image, sr + 1, sc, oldColor, newColor);
+        dfs(image, sr, sc - 1, oldColor, newColor);
+    }
+}
