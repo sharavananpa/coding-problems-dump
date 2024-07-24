@@ -1,0 +1,113 @@
+// Initial Version
+class Trie {
+
+    private class Node {
+        Character val;
+        Node[] next;
+        Boolean isWord;
+        public Node(Character val) {
+            this.val = val;
+            this.isWord = false;
+            this.next = new Node[26];
+        }
+    }
+
+    Node root;
+
+    public Trie() {
+        this.root = new Node(null);
+    }
+    
+    public void insert(String word) {
+        Node curr = this.root;
+        for (Character letter: word.toCharArray()) {
+            if (curr.next[letter - 'a'] == null) {
+                Node temp = new Node(letter);
+                curr.next[letter - 'a'] = temp;
+            }
+            curr = curr.next[letter - 'a'];
+        }
+        curr.isWord = true;
+    }
+    
+    public boolean search(String word) {
+        Node curr = this.root;
+        for (Character letter: word.toCharArray()) {
+            if (curr.next[letter - 'a'] != null)
+                curr = curr.next[letter - 'a'];
+            else
+                return false;
+        }
+        return curr.isWord;
+    }
+    
+    public boolean startsWith(String prefix) {
+        Node curr = this.root;
+        for (Character letter: prefix.toCharArray()) {
+            if (curr.next[letter - 'a'] != null)
+                curr = curr.next[letter - 'a'];
+            else
+                return false;
+        }
+        return true;
+    }
+}
+
+// Better Version
+
+class Trie {
+
+    private class Node {
+        Node[] next;
+        Boolean isWord;
+        public Node() {
+            this.isWord = false;
+            this.next = new Node[26];
+        }
+    }
+
+    Node root;
+
+    public Trie() {
+        this.root = new Node();
+    }
+    
+    public void insert(String word) {
+        Node curr = this.root;
+        for (Character letter: word.toCharArray()) {
+            int index = letter - 'a';
+            if (curr.next[index] == null)
+                curr.next[index] = new Node();
+            curr = curr.next[index];
+        }
+        curr.isWord = true;
+    }
+    
+    public boolean search(String word) {
+        Node node = iterate(word);
+        return node != null && node.isWord;
+    }
+
+    public boolean startsWith(String prefix) {
+        return iterate(prefix) != null;
+    }
+
+    private Node iterate(String prefix) {
+        Node curr = this.root;
+        for (Character letter: prefix.toCharArray()) {
+            int index = letter - 'a';
+            if (curr.next[index] == null)
+                return null;
+            curr = curr.next[index];
+        }
+        return curr;
+    }
+}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
