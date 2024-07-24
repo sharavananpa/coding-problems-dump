@@ -1,0 +1,53 @@
+// Initial solution using a Priority Queue (TC ~(N log N))
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        int N = 0;
+        for (int i = 0; i < lists.length; ++i) {
+            ListNode curr = lists[i];
+            while (curr != null) {
+                pq.add(curr.val);
+                curr = curr.next;
+                ++N;
+            }
+        }
+
+        ListNode result = new ListNode();
+
+        ListNode curr = result;
+
+        for (int i = 0; i < N; ++i) {
+            ListNode temp = new ListNode(pq.remove());
+            curr.next = temp;
+            curr = temp;
+        }
+
+        return result.next;
+    }
+}
+
+// Better (TC ~(N log K))
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
+        for (ListNode list: lists) {
+            if (list != null) {
+                pq.add(list);
+            }
+        }
+
+        ListNode result = new ListNode(0);
+        ListNode curr = result;
+
+        while(!pq.isEmpty()) {
+            ListNode min = pq.remove();
+            curr.next = min;
+            curr = min;
+            if (min.next != null) {
+                pq.add(min.next);
+            }
+        }
+        return result.next;
+    }
+}
