@@ -1,0 +1,40 @@
+// Initial Version
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        ArrayList<int[]> res = new ArrayList<>();
+        for (int i = 1; i < intervals.length; ++i) {
+            if (isOverlapping(intervals[i-1], intervals[i])) {
+                intervals[i] = merge(intervals[i-1], intervals[i]);
+            } else {
+                res.add(intervals[i-1]);
+            }
+        }
+        res.add(intervals[intervals.length - 1]);
+        return res.toArray(new int[0][0]);
+    }
+
+    private boolean isOverlapping(int[] a, int[] b) {
+        return a[0] <= b[1] && b[0] <= a[1];
+    }
+
+    private int[] merge(int[] a, int[] b) {
+        return new int[] {Math.min(a[0], b[0]), Math.max(a[1], b[1])};
+    }
+}
+
+// Improved Version
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        LinkedList<int[]> res = new LinkedList<>();
+        for (int[] interval: intervals) {
+            if (res.isEmpty() || res.getLast()[1] < interval[0]) {
+                res.add(interval);
+            } else {
+                res.getLast()[1] = Math.max(res.getLast()[1], interval[1]);
+            }
+        }
+        return res.toArray(new int[0][0]);
+    }
+}
