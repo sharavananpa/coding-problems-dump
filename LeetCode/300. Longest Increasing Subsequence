@@ -1,0 +1,58 @@
+// Intial Solution
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] lis = new int[n];
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            lis[i] = 1;
+            for (int j = 0; j < i; ++j) {
+                if (nums[j] < nums[i])
+                    lis[i] = Math.max(lis[i], lis[j] + 1);
+            }
+            res = Math.max(lis[i], res);
+        }
+
+        for (int l: lis) {
+            System.out.print(l + " ");
+        }
+        
+        return res;
+    }
+}
+
+// DP n squared tc
+class Solution {
+  public int lengthOfLIS(int[] nums) {
+    if (nums.length == 0)
+      return 0;
+
+    // dp[i] := the length of LIS ending in nums[i]
+    int[] dp = new int[nums.length];
+    Arrays.fill(dp, 1);
+
+    for (int i = 1; i < nums.length; ++i)
+      for (int j = 0; j < i; ++j)
+        if (nums[j] < nums[i])
+          dp[i] = Math.max(dp[i], dp[j] + 1);
+
+    return Arrays.stream(dp).max().getAsInt();
+  }
+}
+
+// Using Binary Search n log n
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        List<Integer> aux = new ArrayList<>();
+        for (int num: nums) {
+            if (aux.isEmpty() || aux.get(aux.size() - 1) < num) {
+                aux.add(num);
+            } else {
+                int i = Collections.binarySearch(aux, num);
+                i = i < 0 ? -i - 1 : i; // Read collections docs
+                aux.set(i, num);
+            }
+        }
+        return aux.size();
+    }
+}
