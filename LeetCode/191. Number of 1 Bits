@@ -1,0 +1,24 @@
+// Initial soln
+class Solution {
+    public int hammingWeight(int n) {
+        int count = 0;
+        while (n != 0) {
+            if ((n & 1) == 1)
+                count++;
+            n >>= 1;
+        }
+        return count;
+    }
+}
+
+// Better Solution (n = n AND n - 1) - This counts only no of ones
+class Solution {
+    public int hammingWeight(int n) {
+        int count = 0;
+        while (n != 0) {
+            n &= (n - 1);
+            ++count;
+        }
+        return count;
+    }
+}
