@@ -1,0 +1,51 @@
+// Initial Solution
+class Solution {
+    public int mySqrt(int x) {
+        int sqrt = 0;
+        for (int i = 0; i <= 46340; ++i) { //46340 is sqrt of Integer.MAX_VALUE (32 bit)
+            if (i * i <= x)
+                sqrt = i;
+            else
+                break;
+        }
+        return sqrt;
+    }
+}
+
+// Binary Search
+class Solution {
+    public int mySqrt(int x) {
+        int i = 0;
+        int j = 46340;
+        while (i <= j) {
+            int mid = (i + j) >>> 1;
+            if (mid * mid > x) {
+                j = mid - 1;
+            } else if (mid * mid < x) {
+                i = mid + 1;
+            } else {
+                return mid;
+            }
+        }
+        return j;
+    }
+}
+
+// Proper BS
+class Solution {
+  public int mySqrt(long x) {
+    long l = 1;
+    long r = x + 1;
+
+    while (l < r) {
+      final long m = (l + r) / 2;
+      if (m > x / m)
+        r = m;
+      else
+        l = m + 1;
+    }
+
+    // l := the minimum number s.t. l * l > x
+    return (int) l - 1;
+  }
+}

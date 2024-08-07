@@ -1,0 +1,63 @@
+// Initial Solution (TLE)
+class Solution {
+    public double myPow(double x, int n) {
+        if (x == 0 || x == 1) {
+            return x;
+        }
+        if (x == -1) {
+            if (n % 2 == 0)
+                return -x;
+            else
+                return x;
+        }
+        double pow = 1;
+        for (int i = 0; i < n; i++) {
+            pow *= x;
+        }
+
+        for (int i = n; i < 0; i++) {
+            pow /= x;
+        }
+            
+        return pow;
+    }
+}
+
+// Recursive (log n) - making n long is essential
+class Solution {
+    public double myPow(double x, long n) {
+        if (x == 0 || x == 1) {
+            return x;
+        }
+        if (n == 0) {
+            return 1;
+        }
+        if (n < 0) 
+            return 1 / myPow(x, -n);
+        if (n % 2 == 1)
+            return x * myPow(x, n - 1);
+        return myPow(x * x, n/2);
+    }
+}
+
+// Iterative (log n) - making n long is essential
+class Solution {
+    public double myPow(double x, long n) {
+        double ans = 1;
+        boolean negative = n < 0;
+        if (n < 0)
+            n = n * -1;
+
+        while (n > 0) {
+            if (n % 2 == 0) {
+                x *= x;
+                n /= 2;
+            } else {
+                ans *= x;
+                n--;
+            }
+        }
+
+        return negative ? 1 / ans : ans;
+    }
+}
