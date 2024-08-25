@@ -1,0 +1,59 @@
+// Initial BAD Solution
+class Solution {
+    public int diameterOfBinaryTree(TreeNode root) {
+        return findMaxDiameter(root, 0);
+    }
+
+    int findMaxDiameter(TreeNode root, int maximum) {
+        if (root == null) {
+            return 0;
+        }
+        maximum = height(root.left) + height(root.right);
+        int left = findMaxDiameter(root.left, maximum);
+        int right = findMaxDiameter(root.right, maximum);
+        return Math.max(maximum, Math.max(left, right));
+    }
+
+    int height(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + Math.max(height(root.left), height(root.right));
+    }
+}
+
+// Better Solution
+class Solution {
+    int res = 0;
+    public int diameterOfBinaryTree(TreeNode root) {
+        findMax(root);
+        return res;
+    }
+
+    int findMax(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = findMax(root.left);
+        int right = findMax(root.right);
+        res = Math.max(res, left + right);
+        return 1 + Math.max(left, right);
+    }
+}
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */

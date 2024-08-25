@@ -1,0 +1,36 @@
+// Initial Solution
+class Solution {
+    public int longestPalindrome(String s) {
+        int result = 0;
+        boolean addOdd = true;
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (Character c: s.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+        for (var count: map.values()) {
+            if (addOdd == true && count % 2 != 0) {
+                ++result;
+                addOdd = false;
+            }
+            result += count - (count % 2);
+        }
+        return result;
+    }
+}
+
+// Other Solution - same concept
+class Solution {
+  public int longestPalindrome(String s) {
+    int ans = 0;
+    int[] count = new int[128];
+
+    for (final char c : s.toCharArray())
+      ++count[c];
+
+    for (final int freq : count)
+      ans += freq % 2 == 0 ? freq : freq - 1;
+
+    final boolean hasOddCount = Arrays.stream(count).anyMatch(freq -> freq % 2 == 1);
+    return ans + (hasOddCount ? 1 : 0);
+  }
+}

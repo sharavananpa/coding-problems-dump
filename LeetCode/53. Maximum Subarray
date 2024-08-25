@@ -21,4 +21,36 @@ class Solution {
     }
 }
 
-// 2
+// Another concise version
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int maxSum = nums[0];
+        int localSum = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            localSum += nums[i];
+            maxSum = Math.max(localSum, maxSum);
+            localSum = Math.max(0, localSum);
+        }
+        return maxSum;
+    }
+}
+
+FOR DP Solution - https://walkccc.me/LeetCode/problems/53/#__tabbed_3_2
+
+// DP
+class Solution {
+  public int maxSubArray(int[] nums) {
+        int ans = nums[0];
+        int sum = 0;
+
+        for (final int num : nums) {
+            sum = Math.max(num, sum + num);
+            ans = Math.max(ans, sum);
+        }
+        
+        return ans;
+    }
+}
+
+// Divide and Conquer Approach
+
