@@ -26,3 +26,55 @@ class Solution {
         return mat;
     }
 }
+
+// TLE - Long Method
+
+class Solution {
+    public int[][] updateMatrix(int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+        int[][] result = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                result[i][j] = bfs(mat, i, j, m, n);
+            }
+        }
+        return result;
+    }
+
+    private int[] dir = new int[] {0, 1, 0, -1, 0};
+
+    private int bfs(int mat[][], int i, int j, int m, int n) {
+        if (mat[i][j] == 0) {
+            return 0;
+        }
+        int count = 0;
+        boolean[][] visited = new boolean[m][n];
+        Deque<Pair<Integer, Integer>> queue = new ArrayDeque<>();
+        queue.addLast(new Pair<Integer, Integer>(i, j));
+        visited[i][j] = true;
+        while (!queue.isEmpty()) {
+            int levels = queue.size();
+            count++;
+            for (int level = 0; level < levels; ++level) {
+                Pair<Integer, Integer> temp = queue.removeFirst();
+                i = temp.getKey();
+                j = temp.getValue();
+                for (int k = 0; k < 4; ++k) {
+                    int x = dir[k];
+                    int y = dir[k + 1];
+                    // System.out.println((i + x) + " " + (j + y));
+                    if (i + x >= 0 && i + x < m && j + y >= 0 && j + y < n && visited[i + x][j + y] == false) {
+                        // System.out.println("->" + mat[i + x][j + y]);
+                        queue.addLast(new Pair<Integer, Integer>(i + x, j + y));
+                        visited[i + x][j + y] = true;
+                        if (mat[i + x][j + y] == 0)
+                            return count;
+                    }
+                }
+            }
+            
+        }
+        return count;
+    }
+}
