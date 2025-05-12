@@ -63,7 +63,7 @@ class Solution {
 
         for (int[] point: points) {
             pq.add(point);
-            if (pq.size() > k)
+            if (pq.size() > k) // can also be (i >= k)
                 pq.poll();
         }
 
